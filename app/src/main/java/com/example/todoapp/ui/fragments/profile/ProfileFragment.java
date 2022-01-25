@@ -8,6 +8,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -25,7 +27,8 @@ import java.io.IOException;
 
 public class ProfileFragment extends Fragment {
 
-    FragmentProfileBinding binding;
+    private FragmentProfileBinding binding;
+    private ActivityResultLauncher<Intent> resultLauncher;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,6 +48,14 @@ public class ProfileFragment extends Fragment {
         binding.imgView.setOnClickListener(v->{
             askForPermission();
         });
+
+        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            Intent intent = result.getData();
+            if (intent != null){
+                Uri returnUri = intent.getData();
+                binding.imgView.setImageURI(returnUri);
+            }
+        });
     }
 
     private void askForPermission() {
@@ -58,16 +69,8 @@ public class ProfileFragment extends Fragment {
 
     private void startGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(intent, 2000);
+        resultLauncher.launch(intent);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2000 && resultCode == Activity.RESULT_OK){
-            Uri returnUri = data.getData();
-            binding.imgView.setImageURI(returnUri);
 
-        }
-    }
 }
