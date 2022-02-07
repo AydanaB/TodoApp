@@ -17,13 +17,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.room.Delete;
 
 import com.example.todoapp.App;
 import com.example.todoapp.R;
 import com.example.todoapp.databinding.FragmentHomeBinding;
 import com.example.todoapp.models.Task;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements MainAdapter.Delete {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
@@ -59,17 +60,6 @@ public class HomeFragment extends Fragment {
                 });
     }
 
-
-    private void deleteTask(Task task){
-        new AlertDialog.Builder(requireActivity()).setTitle("Do you want to delete it?")
-                .setPositiveButton("Yes", (dialog, which) -> {
-                    App.dataBase.taskDao().deleteTask(task);
-                })
-        .setNegativeButton("No", (dialog, which) -> {
-
-        }).show();
-    }
-
     private void initListener() {
         binding.btnAdd.setOnClickListener(v->{
             openDetailFragment();
@@ -98,5 +88,14 @@ public class HomeFragment extends Fragment {
         binding = null;
     }
 
-
+    @Override
+    public void delete(Task task) {
+        new AlertDialog.Builder(requireActivity()).setTitle("Do you want to delete it?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    App.dataBase.taskDao().deleteTask(task);
+                })
+                .setNegativeButton("No", (dialog, which) -> {
+                    Toast.makeText(requireActivity(), "Отмена", Toast.LENGTH_SHORT).show();
+                }).show();
+    }
 }

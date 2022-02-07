@@ -17,6 +17,7 @@ import java.util.List;
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     private ArrayList<Task> list = new ArrayList<>();
+    Delete delete;
 
     public void setList(List<Task> list){
         this.list.addAll(list);
@@ -34,8 +35,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.onBind(list.get(position));
-        holder.tvTitle.setOnLongClickListener(v -> true);
-
+        holder.tvTitle.setOnLongClickListener(v -> {
+            delete.delete(list.get(position));
+            return true;
+        });
     }
 
     @Override
