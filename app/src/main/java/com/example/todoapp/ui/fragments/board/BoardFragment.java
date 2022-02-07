@@ -39,17 +39,16 @@ public class BoardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViewPager();
-
     }
 
     private void initViewPager() {
         adapter = new BoardAdapter();
         binding.vpBoard.setAdapter(adapter);
         initTabListener();
-        initTextViews();
+        initTextViewsListeners();
     }
 
-    private void initTextViews() {
+    private void initTextViewsListeners() {
         binding.btnSkip.setOnClickListener(v -> {
             binding.vpBoard.setCurrentItem(3);
         });
@@ -61,7 +60,6 @@ public class BoardFragment extends Fragment {
                     binding.btnFinish.setVisibility(View.VISIBLE);
                 }else {
                     binding.btnFinish.setVisibility(View.GONE);
-
                 }
             }
         });
@@ -72,33 +70,27 @@ public class BoardFragment extends Fragment {
         });
     }
 
-
     private void initTabListener() {
         new TabLayoutMediator(binding.tabLayout, binding.vpBoard, (tab, position) -> {
             if (position == 0) {
                 tab.setIcon(R.drawable.black_dot);
-
             } else {
                 tab.setIcon(R.drawable.default_dot);
-
             }
         }).attach();
         binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 tab.setIcon(R.drawable.black_dot);
-
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 tab.setIcon(R.drawable.default_dot);
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
     }

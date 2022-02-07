@@ -20,8 +20,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.todoapp.App;
 import com.example.todoapp.R;
 import com.example.todoapp.databinding.FragmentProfileBinding;
+import com.example.todoapp.utils.Prefs;
 
 import java.io.IOException;
 
@@ -49,13 +51,33 @@ public class ProfileFragment extends Fragment {
             askForPermission();
         });
 
-        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            Intent intent = result.getData();
-            if (intent != null){
-                Uri returnUri = intent.getData();
-                binding.imgView.setImageURI(returnUri);
-            }
+        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    Intent intent = result.getData();
+                    if (intent != null){
+                        Uri returnUri = intent.getData();
+                        binding.imgView.setImageURI(returnUri);
+                    }
+                });
+
+        binding.btnProfile.setOnClickListener(v->{
+            initProfile();
+            binding.edName.setText("");
+            binding.edSurname.setText("");
         });
+    }
+
+    private void initProfile() {
+        saveInShare();
+        binding.tvName.setText(App.prefs.getName());
+        binding.tvSurname.setText(App.prefs.getSurname());
+    }
+
+    private void saveInShare() {
+        String resultName = binding.edName.getText().toString().trim();
+        String resultSurname = binding.edSurname.getText().toString().trim();
+        App.prefs.saveName(resultName);
+        App.prefs.saveSurName(resultSurname);
     }
 
     private void askForPermission() {
@@ -71,6 +93,4 @@ public class ProfileFragment extends Fragment {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         resultLauncher.launch(intent);
     }
-
-
 }
