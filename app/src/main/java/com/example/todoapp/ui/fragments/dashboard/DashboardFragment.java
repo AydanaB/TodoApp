@@ -57,6 +57,9 @@ public class DashboardFragment extends Fragment {
     }
 
     private void initRv() {
+        adapter = new MainAdapter();
+        adapter.setList(App.dataBase.taskDao().getAllTasks());
+        binding.rvFireStore.setAdapter(adapter);
     }
 
     @Override

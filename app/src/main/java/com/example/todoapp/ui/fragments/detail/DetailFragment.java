@@ -40,15 +40,24 @@ public class DetailFragment extends Fragment {
     }
 
     private void initListenerFire() {
+        if(isFire){
+            binding.btnSave.setOnClickListener(v->{
+                String resultText = binding.edEnter.getText().toString().trim();
+                App.dataBase.taskDao().addTask(new Task(resultText));
+                closeFragment();
+            });
 
+        }
     }
 
     private void initListeners() {
+        if(!isFire) {
             binding.btnSave.setOnClickListener(v -> {
                 String resultText = binding.edEnter.getText().toString().trim();
                 App.dataBase.taskDao().addTask(new Task(resultText));
                 closeFragment();
             });
+        }
     }
 
     private void closeFragment() {
