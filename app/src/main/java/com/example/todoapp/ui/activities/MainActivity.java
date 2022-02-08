@@ -53,13 +53,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null){
             navController.navigate(R.id.authFragment);
-        }else {
-            if (!App.prefs.isShow()){
+        }
+        
+        if (!App.prefs.isShow()){
                 navController.navigate(R.id.boardFragment);
                 App.prefs.setPrefs();
-            }
+            
         }
-
-
     }
 }
