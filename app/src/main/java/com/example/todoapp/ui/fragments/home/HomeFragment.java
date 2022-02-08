@@ -1,5 +1,6 @@
 package com.example.todoapp.ui.fragments.home;
 
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -23,12 +24,22 @@ import com.example.todoapp.App;
 import com.example.todoapp.R;
 import com.example.todoapp.databinding.FragmentHomeBinding;
 import com.example.todoapp.models.Task;
+import com.example.todoapp.ui.fragments.detail.DetailFragment;
 
-public class HomeFragment extends Fragment implements MainAdapter.Delete {
+import java.util.List;
+
+public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
-    private MainAdapter adapter = new MainAdapter();
+    private MainAdapter adapter;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        adapter = new MainAdapter(requireActivity());
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -48,24 +59,18 @@ public class HomeFragment extends Fragment implements MainAdapter.Delete {
     }
 
     private void initFragmentListener() {
-        getParentFragmentManager().setFragmentResultListener("result",
-                getViewLifecycleOwner(),
-                (requestKey, result) -> {
-                    Toast.makeText(requireContext(),
-                            result.getString("key"),
-                            Toast.LENGTH_SHORT).show();
-                    App.dataBase.taskDao().addTask(new Task(result.getString("key")));
-                    adapter.setList(App.dataBase.taskDao().getAllTasks());
-                    binding.rvMain.setAdapter(adapter);
-                });
+        List<Task> list = App.dataBase.taskDao().getAllTasks();
+        adapter.setList(list);
+        binding.rvMain.setAdapter(adapter);
+
     }
 
     private void initListener() {
-        binding.btnAdd.setOnClickListener(v->{
+        binding.btnAdd.setOnClickListener(v -> {
             openDetailFragment();
         });
 
-        binding.btnGallery.setOnClickListener(v->{
+        binding.btnGallery.setOnClickListener(v -> {
             openProfileFragment();
         });
     }
@@ -80,22 +85,12 @@ public class HomeFragment extends Fragment implements MainAdapter.Delete {
         NavController navController = Navigation.findNavController(requireActivity(),
                 R.id.nav_host_fragment_activity_main);
         navController.navigate(R.id.detailFragment);
+        DetailFragment.isFire = false;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-
-    @Override
-    public void delete(Task task) {
-        new AlertDialog.Builder(requireActivity()).setTitle("Do you want to delete it?")
-                .setPositiveButton("Yes", (dialog, which) -> {
-                    App.dataBase.taskDao().deleteTask(task);
-                })
-                .setNegativeButton("No", (dialog, which) -> {
-                    Toast.makeText(requireActivity(), "Отмена", Toast.LENGTH_SHORT).show();
-                }).show();
     }
 }

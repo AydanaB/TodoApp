@@ -1,13 +1,17 @@
 package com.example.todoapp.ui.fragments.home;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.todoapp.App;
 import com.example.todoapp.R;
 import com.example.todoapp.models.Task;
 
@@ -16,11 +20,18 @@ import java.util.List;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
-    private ArrayList<Task> list = new ArrayList<>();
-    Delete delete;
+    private List<Task> list = new ArrayList<>() ;
+    private Activity activity;
+
+    public MainAdapter(Activity activity) {
+        this.activity = activity;
+    }
+
+    public MainAdapter() {
+    }
 
     public void setList(List<Task> list){
-        this.list.addAll(list);
+        this.list = list;
         notifyDataSetChanged();
     }
 
@@ -36,7 +47,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.onBind(list.get(position));
         holder.tvTitle.setOnLongClickListener(v -> {
-            delete.delete(list.get(position));
+            holder.delete(list.get(position));
             return true;
         });
     }
@@ -56,9 +67,15 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         public void onBind(Task task){
             tvTitle.setText(task.getTitle());
         }
-    }
 
-    interface Delete {
-        void delete(Task task);
+        public void delete(Task task) {
+            new AlertDialog.Builder(activity).setTitle("Do you want to delete it?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        App.dataBase.taskDao().deleteTask(task);
+                    })
+                    .setNegativeButton("No", (dialog, which) -> {
+                        Toast.makeText(activity, "Отмена", Toast.LENGTH_SHORT).show();
+                    }).show();
+        }
     }
 }

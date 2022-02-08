@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey;
 public class Task {
 
     @PrimaryKey(autoGenerate = true)
-    public int id;
-    public String title;
+    private int id;
+    private String title;
 
     public Task(String title) {
         this.title = title;
@@ -20,5 +20,13 @@ public class Task {
 
     public String getTitle() {
         return title;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

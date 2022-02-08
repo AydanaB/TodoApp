@@ -13,13 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.todoapp.App;
 import com.example.todoapp.R;
 import com.example.todoapp.databinding.FragmentDetailBinding;
+import com.example.todoapp.models.Task;
 
 public class DetailFragment extends Fragment {
 
     private FragmentDetailBinding binding;
     private NavController navController;
+    public static  boolean isFire = false ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,17 +36,19 @@ public class DetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initListeners();
+        initListenerFire();
+    }
+
+    private void initListenerFire() {
+
     }
 
     private void initListeners() {
-        binding.btnSave.setOnClickListener(v->{
-            String resultText = binding.edEnter.getText().toString().trim();
-            Bundle bundle = new Bundle();
-            bundle.putString("key", resultText);
-            getParentFragmentManager().setFragmentResult("result", bundle);
-            closeFragment();
-        });
-
+            binding.btnSave.setOnClickListener(v -> {
+                String resultText = binding.edEnter.getText().toString().trim();
+                App.dataBase.taskDao().addTask(new Task(resultText));
+                closeFragment();
+            });
     }
 
     private void closeFragment() {
