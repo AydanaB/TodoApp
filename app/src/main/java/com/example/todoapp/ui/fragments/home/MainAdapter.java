@@ -74,7 +74,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                         App.dataBase.taskDao().deleteTask(task);
                     })
                     .setNegativeButton("No", (dialog, which) -> {
-                        Toast.makeText(activity, "Отмена", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "Canceled", Toast.LENGTH_SHORT).show();
                     }).show();
         }
     }

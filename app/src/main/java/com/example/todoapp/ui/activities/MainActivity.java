@@ -51,19 +51,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseAuth.AuthStateListener mAuthListener;
-        mAuthListener = new FirebaseAuth.AuthStateListener(){
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (FirebaseAuth.getInstance().getCurrentUser() == null){
-                    navController.navigate(R.id.authFragment);
-                }
+        if (FirebaseAuth.getInstance().getCurrentUser() == null){
+            navController.navigate(R.id.authFragment);
+        }else {
+            if (!App.prefs.isShow()){
+                navController.navigate(R.id.boardFragment);
+                App.prefs.setPrefs();
             }
-        };
-
-        if (!App.prefs.isShow()){
-            navController.navigate(R.id.boardFragment);
-            App.prefs.setPrefs();
         }
+
+
     }
 }

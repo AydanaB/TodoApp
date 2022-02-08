@@ -61,7 +61,6 @@ public class HomeFragment extends Fragment {
     private void initFragmentListener() {
         adapter.setList(App.dataBase.taskDao().getAllTasks());
         binding.rvMain.setAdapter(adapter);
-
     }
 
     private void initListener() {
