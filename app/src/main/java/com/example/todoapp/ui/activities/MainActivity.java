@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         if (!App.prefs.isShow()){
                 navController.navigate(R.id.boardFragment);
                 App.prefs.setPrefs();
-            
         }
     }
 }
