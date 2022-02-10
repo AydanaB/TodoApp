@@ -43,7 +43,25 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setDefaultValues();
         initListener();
+        startAnim();
+    }
+
+    private void setDefaultValues() {
+        binding.btnProfile.setScaleX(0);
+        binding.tvName.setTranslationX(100);
+        binding.tvSurname.setTranslationX(-100);
+        binding.edName.setRotationX(0);
+        binding.edSurname.setRotationX(0);
+    }
+
+    private void startAnim() {
+        binding.btnProfile.animate().scaleX(1).setDuration(2000).start();
+        binding.tvName.animate().translationX(0).setDuration(2000).start();
+        binding.tvSurname.animate().translationX(0).setDuration(2000).start();
+        binding.edName.animate().rotationX(360).setDuration(2000).start();
+        binding.edSurname.animate().rotationX(360).setDuration(2000).start();
     }
 
     private void initListener() {

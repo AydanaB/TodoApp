@@ -12,9 +12,9 @@ import com.example.todoapp.databinding.ItemBoardBinding;
 
 public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> {
 
-    private final int[] images = {R.drawable.ic_peasant_tools,
-            R.drawable.ic_crop_selection,
-            R.drawable.ic_cultivating};
+    private final int[] images = {R.raw.first_anim,
+            R.raw.second_anim,
+            R.raw.third_anom};
     private final String[] title = new String[3];
     private final String[] subTitle = new String[3];
     private ItemBoardBinding binding;
@@ -55,7 +55,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         }
 
         public void onBind(int image, String title, String subTitle) {
-            binding.ivBoard.setImageResource(image);
+            binding.ivBoard.setAnimation(image);
             binding.tvBoardTitle.setText(title);
             binding.tvBoardSubtitle.setText(subTitle);
         }

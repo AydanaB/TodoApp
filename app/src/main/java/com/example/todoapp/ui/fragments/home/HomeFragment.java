@@ -54,8 +54,20 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setDefaultValues();
         initListener();
         initFragmentListener();
+        startAnim();
+    }
+
+    private void setDefaultValues() {
+        binding.btnAdd.setTranslationX(200);
+        binding.btnGallery.setTranslationX(-200);
+    }
+
+    private void startAnim() {
+        binding.btnAdd.animate().translationX(0).setDuration(1000).start();
+        binding.btnGallery.animate().translationX(0).setDuration(1000).start();
     }
 
     private void initFragmentListener() {

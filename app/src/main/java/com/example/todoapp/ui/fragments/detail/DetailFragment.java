@@ -35,18 +35,26 @@ public class DetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setDefaultValues();
         initListeners();
         initListenerFire();
+        startAnim();
+    }
+
+    private void setDefaultValues() {
+        binding.btnSave.setAlpha(0);
+        binding.edEnter.setScaleX(0);
+    }
+
+    private void startAnim() {
+        binding.btnSave.animate().alpha(1).setDuration(2000).start();
+        binding.edEnter.animate().scaleX(1).setDuration(2000).start();
     }
 
     private void initListenerFire() {
         if(isFire){
             binding.btnSave.setOnClickListener(v->{
-                String resultText = binding.edEnter.getText().toString().trim();
-                App.dataBase.taskDao().addTask(new Task(resultText));
-                closeFragment();
             });
-
         }
     }
 

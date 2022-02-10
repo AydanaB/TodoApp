@@ -39,8 +39,18 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setDefaultValues();
         initRv();
         initListeners();
+        startAnim();
+    }
+
+    private void setDefaultValues() {
+        binding.dashBtnAdd.setTranslationX(200);
+    }
+
+    private void startAnim() {
+        binding.dashBtnAdd.animate().translationX(0).setDuration(1000).start();
     }
 
     private void initListeners() {
@@ -58,8 +68,6 @@ public class DashboardFragment extends Fragment {
 
     private void initRv() {
         adapter = new MainAdapter();
-        adapter.setList(App.dataBase.taskDao().getAllTasks());
-        binding.rvFireStore.setAdapter(adapter);
     }
 
     @Override

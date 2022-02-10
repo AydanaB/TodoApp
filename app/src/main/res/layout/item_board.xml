@@ -6,15 +6,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="20dp">
 
-
-    <ImageView
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/iv_board"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/tv_board_title"
         android:layout_width="0dp"
-        android:layout_height="0dp"/>
+        android:layout_height="0dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"/>
 
     <TextView
         android:id="@+id/tv_board_title"
